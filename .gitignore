@@ -27,9 +27,27 @@ yarn-error.log*
 # local env files
 .env*.local
 
-# vercel
-.vercel
+
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+       
+            #  {experiencesData && experiencesData.length > 0 ? (
+            #   <VerticalTimeline lineColor="">
+            #     {experiencesData.map((item, index) => 
+            #     (
+            #     <div>
+            #       <p key={index}>{item.title}
+            #       </p>
+            #       <p key={index}>{item.description}
+            #       </p>
+
+            #     </div>  
+                  
+            #     ))}
+            #   </VerticalTimeline>
+            # ) : (
+            #   <p>No experience data available.</p>
+            # )}

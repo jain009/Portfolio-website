@@ -37,71 +37,58 @@ export const experiencesData = [
   {
     title: "Graduated ",
     location: "Bhopal",
-    description:
-      "I graduated BCA degree after 2022 .",
+    description: "I graduated BCA degree in 2022 .",
     icon: React.createElement(LuGraduationCap),
-    date: "2019",
+    date: "2022",
+  },
+  {
+    title: "Post Graduated ",
+    location: "Bhopal",
+    description: "I graduated Post Graduated degree in 2024 .",
+    icon: React.createElement(LuGraduationCap),
+    date: "2024",
   },
   {
     title: "Front-End Developer",
     location: "Bhopal",
     description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
+      "I worked Online as a front-end developer intern for 6 month in Hph solution company . I also upSkilled to the full stack.",
     icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
+    date: " JAN 2024 - JUNE 2024",
   },
   {
     title: "Full-Stack Developer",
-    location: "Houston, TX",
+    location: "Noida ",
     description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
+      "Track your expenses and income with our intuitive financial management tool. Visualize your data through clean tables and interactive pie charts that highlight your spending patterns. Download your financial records as Excel files with just one click. All wrapped in an excellent, responsive UI that works beautifully on any device.",
     icon: React.createElement(FaReact),
-    date: "2021 - present",
+    date: "2024 - present",
   },
 ] as const;
 
 export const projectsData = [
   {
-    title: "CorpComment",
-    description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
+    title: "Finance Tracker",
+    description: ".",
+    tags: ["React", "css", "Firebase"],
     imageUrl: corpcommentImg,
+    src:"https://finance-tracker-nine-ochre.vercel.app/",
   },
-  {
-    title: "rmtDev",
-    description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
-    imageUrl: rmtdevImg,
-  },
-  {
-    title: "Word Analytics",
-    description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
-    imageUrl: wordanalyticsImg,
-  },
+  
 ] as const;
 
 export const skillsData = [
   "HTML",
   "CSS",
   "JavaScript",
-  "TypeScript",
   "React",
   "Next.js",
   "Node.js",
   "Git",
   "Tailwind",
-  "Prisma",
   "MongoDB",
   "Redux",
-  "GraphQL",
-  "Apollo",
   "Express",
-  "PostgreSQL",
   "Python",
-  "Django",
   "Framer Motion",
 ] as const;
