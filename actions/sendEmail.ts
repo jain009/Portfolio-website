@@ -1,4 +1,3 @@
-"use client";
 
 import { Resend } from "resend";
 import { validateString, getErrorMessage } from "@/lib/utils";
