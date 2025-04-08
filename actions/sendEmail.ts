@@ -1,32 +1,43 @@
 
+
 import { Resend } from "resend";
 import { validateString, getErrorMessage } from "@/lib/utils";
 import ContactFormEmail from "@/email/contact-form-email";
 import React from "react";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const sendEmail = async (formData: FormData) => {
+  // Initialize Resend inside the function
+  const apiKey = "re_DcsCoWUq_5JdARjf8Qss7kMmKzmNiKVun";
+  
+  console.log(apiKey);
+
+  if (!apiKey) {
+    return { error: "Missing Resend API key - check your .env.local file" };
+  }
+
+  const resend = new Resend(apiKey);
+
+  // Add validation for API key
+  if (!process.env.RESEND_API_KEY) {
+    return {
+      error: "Missing Resend API key - check environment variables",
+    };
+  }
+
   const senderEmail = formData.get("senderEmail");
   const message = formData.get("message");
 
-  // simple validation
   if (!validateString(senderEmail, 500)) {
-    return {
-      error: "Invalid sender email"
-    };
+    return { error: "Invalid sender email" };
   }
 
   if (!validateString(message, 500)) {
-    return {
-      error: "Invalid message"
-    };
+    return { error: "Invalid message" };
   }
 
-  let data;
   try {
-    data = await resend.emails.send({
-      from: "Contact Form <onboarding@resend.dev>", // Changed .com to .dev
+    const data = await resend.emails.send({
+      from: "Contact Form <onboarding@resend.dev>",
       to: "ajainankit2001@gmail.com",
       subject: "Message from contact form",
       react: React.createElement(ContactFormEmail, {
@@ -34,18 +45,9 @@ export const sendEmail = async (formData: FormData) => {
         senderEmail: senderEmail as string,
       }),
     });
-    
-    // Add logging to debug
-    console.log("Email sent successfully:", data);
-    
-  } catch (error: unknown) {
-    console.error("Error sending email:", error);
-    return {
-      error: getErrorMessage(error)
-    };
-  }
 
-  return {
-    data,
-  };
+    return { data };
+  } catch (error: unknown) {
+    return { error: getErrorMessage(error) };
+  }
 };

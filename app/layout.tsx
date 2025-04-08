@@ -38,16 +38,15 @@ export default function RootLayout({
         xl:left-[-28rem] 2xl:left-[-5rem] dark:bg-[#676394]"
           ></div>
           <Providers>
-
-          <ThemeContextProvider>
-            <ActiveSectionContextProvider>
-              <Header />
-              {children}
-              <Footer />
-              <Toaster position="top-right" />
-              <ThemeSwitch />
-            </ActiveSectionContextProvider>
-          </ThemeContextProvider>
+            <ThemeContextProvider>
+              <ActiveSectionContextProvider>
+                <Header />
+                {children}
+                <Footer />
+                <Toaster position="top-right" />
+                <ThemeSwitch />
+              </ActiveSectionContextProvider>
+            </ThemeContextProvider>
           </Providers>
         </body>
       </html>
