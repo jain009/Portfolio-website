@@ -1,57 +1,64 @@
 "use client";
 
-import React ,{ useEffect, useState }from "react";
-import dynamic from "next/dynamic";
-import SectionHeading from "./section-heading";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { LuGraduationCap, LuBriefcase, LuCode } from "react-icons/lu";
-// import {
-//   VerticalTimeline,
-//   VerticalTimelineElement,
-// } from "react-vertical-timeline-component";
-// import "react-vertical-timeline-component/style.min.css";
+import SectionHeading from "./section-heading";
 import { experiencesData } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
 import { useTheme } from "@/context/theme-context";
 
+const iconVariants = {
+  hover: { scale: 1.1, rotate: 10 },
+  tap: { scale: 0.95 },
+  selected: { scale: 1.2, rotate: -10 }
+};
 
-const VerticalTimeline = dynamic(
-  () => import("react-vertical-timeline-component").then(mod => mod.VerticalTimeline),
-  { ssr: false }
-);
-
-const VerticalTimelineElement = dynamic(
-  () => import("react-vertical-timeline-component").then(mod => mod.VerticalTimelineElement),
-  { ssr: false }
-);
-
+const cardGradient = {
+  light: "linear-gradient(145deg, #ffffff 0%, #f8faff 100%)",
+  dark: "linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%)"
+};
 
 export default function Experience() {
   const { ref } = useSectionInView("Experience");
   const { theme } = useTheme();
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  
+
   const container = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.2,
+        delayChildren: 0.3
       }
     }
   };
-  
+
   const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { type: "spring", stiffness: 120 }
+    }
   };
+
   return (
     <section
       id="experience"
       ref={ref}
-      className="scroll-mt-28 mb-28 sm:mb-40 relative max-w-5xl mx-auto px-4 sm:px-8" 
+      className="scroll-mt-28 mb-28 sm:mb-40 relative max-w-5xl mx-auto px-4 sm:px-8"
     >
-      <SectionHeading>My experience</SectionHeading>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <SectionHeading>My experience</SectionHeading>
+      </motion.div>
+
       <motion.div
         variants={container}
         initial="hidden"
@@ -64,81 +71,133 @@ export default function Experience() {
             variants={item}
             layoutId={`card-${index}`}
             onClick={() => setSelectedId(selectedId === index ? null : index)}
-            className={`
-              rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300
-              ${selectedId === index ? "shadow-2xl scale-105" : "shadow-lg hover:shadow-xl"}
-              ${theme === "light" ? "bg-white border border-gray-100" : "bg-gray-800 border border-gray-700"}
-            `}
+            className="relative group mx-auto w-full max-w-2xl" // Reduced width here
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <div className="p-6 sm:p-8">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center">
-                  <div className={`
-                    rounded-full p-3 mr-4 flex items-center justify-center
-                    ${theme === "light" 
-                      ? "bg-blue-50 text-blue-600" 
-                      : "bg-blue-900/30 text-blue-400"}
-                  `}>
-                    {experience.icon}
+            <motion.div
+              className={`
+                rounded-xl overflow-hidden cursor-pointer
+                relative backdrop-blur-sm border
+                ${theme === "light" ? "border-gray-100" : "border-gray-700"}
+              `}
+              style={{
+                background: cardGradient[theme]
+              }}
+              layout
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <div className="p-5 sm:p-6 relative z-10"> {/* Reduced padding */}
+                <div className="flex items-center justify-between mb-3"> {/* Reduced margin */}
+                  <div className="flex items-center">
+                    <motion.div
+                      className={`
+                        rounded-full p-2.5 mr-3 flex items-center justify-center // Smaller icon container
+                        ${theme === "light" 
+                          ? "bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600" 
+                          : "bg-gradient-to-br from-blue-900/30 to-blue-800/30 text-blue-400"}
+                      `}
+                      variants={iconVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      animate={selectedId === index ? "selected" : "normal"}
+                    >
+                      {experience.icon}
+                    </motion.div>
+                    <div>
+                      <motion.h3 
+                        className="font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" // Smaller text
+                        initial={{ backgroundPositionX: "0%" }}
+                        whileHover={{ backgroundPositionX: "100%" }}
+                        transition={{ duration: 1.5, repeat: Infinity, repeatType: "mirror" }}
+                      >
+                        {experience.title}
+                      </motion.h3>
+                      <p className={`text-xs ${theme === "light" ? "text-gray-600" : "text-gray-400"}`}> {/* Smaller text */}
+                        {experience.location}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-xl">{experience.title}</h3>
-                    <p className={`text-sm ${theme === "light" ? "text-gray-600" : "text-gray-400"}`}>
-                      {experience.location}
-                    </p>
-                  </div>
-                </div>
-                <div className={`
-                  px-3 py-1 text-sm rounded-full font-medium
-                  ${theme === "light" ? "bg-blue-50 text-blue-600" : "bg-blue-900/30 text-blue-400"}
-                `}>
-                  {experience.date}
-                </div>
-              </div>
-              
-              <div className={`
-                mt-4 text-base leading-relaxed transition-all duration-300
-                ${selectedId === index ? "max-h-[500px] opacity-100" : "max-h-24 overflow-hidden opacity-90"}
-                ${theme === "light" ? "text-gray-700" : "text-gray-300"}
-              `}>
-                {experience.description}
-              </div>
-              
-             
-              
-              <div className="mt-6 flex justify-end items-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`
-                    text-sm flex items-center
-                    ${theme === "light" ? "text-blue-600" : "text-blue-400"}
-                  `}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedId(selectedId === index ? null : index);
-                  }}
-                >
-                  {selectedId === index ? "Show less" : "Read more"}
-                  <svg
-                    className={`w-4 h-4 ml-1 transition-transform ${selectedId === index ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <motion.div
+                    className={`
+                      px-2.5 py-1 text-xs rounded-full font-medium // Smaller badge
+                      ${theme === "light" 
+                        ? "bg-gradient-to-br from-blue-50 to-purple-50 text-blue-600" 
+                        : "bg-gradient-to-br from-blue-900/30 to-purple-900/30 text-blue-400"}
+                    `}
+                    whileHover={{ scale: 1.05 }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </motion.button>
+                    {experience.date}
+                  </motion.div>
+                </div>
+
+                <AnimatePresence>
+                  <motion.div
+                    className={`
+                      mt-3 text-sm leading-relaxed // Reduced text size and margin
+                      ${theme === "light" ? "text-gray-700" : "text-gray-300"}
+                    `}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ 
+                      opacity: selectedId === index ? 1 : 0.9,
+                      height: selectedId === index ? "auto" : "4.5rem" // Reduced collapsed height
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {experience.description}
+                  </motion.div>
+                </AnimatePresence>
+
+                <motion.div 
+                  className="mt-4 flex justify-end items-center" // Reduced margin
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <motion.button
+                    className={`
+                      text-xs flex items-center bg-gradient-to-r from-blue-600 to-purple-600 // Smaller text
+                      bg-clip-text text-transparent relative overflow-hidden
+                    `}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedId(selectedId === index ? null : index);
+                    }}
+                  >
+                    <span className="relative z-10">
+                      {selectedId === index ? "Show less" : "Read more"}
+                    </span>
+                    <motion.svg
+                      className={`w-3 h-3 ml-1 ${selectedId === index ? "rotate-180" : ""}`} // Smaller icon
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      animate={{ rotate: selectedId === index ? 180 : 0 }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </motion.svg>
+                    <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </motion.button>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         ))}
+      </motion.div>
+
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute inset-0 -z-10 opacity-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 1, repeat: Infinity, repeatType: "mirror" }}
+      >
+        <div className="absolute top-20 left-20 w-48 h-48 bg-blue-500 rounded-full mix-blend-overlay blur-3xl animate-pulse" />
+        <div className="absolute top-40 right-20 w-64 h-64 bg-purple-500 rounded-full mix-blend-overlay blur-3xl animate-pulse delay-1000" />
       </motion.div>
     </section>
   );
