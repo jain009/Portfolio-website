@@ -52,7 +52,7 @@ export const experiencesData = [
     title: "Front-End Developer",
     location: "Bhopal",
     description:
-      "I worked Online as a front-end developer intern for 6 month in Hph solution company . I also upSkilled to the full stack.",
+      "I worked Remotely as a front-end developer intern for 6 month in Hph solution company . I also upSkilled to the full stack.",
     icon: React.createElement(CgWorkAlt),
     date: " JAN 2024 - JUNE 2024",
   },
@@ -69,12 +69,27 @@ export const experiencesData = [
 export const projectsData = [
   {
     title: "Finance Tracker",
-    description: ".",
+    description: "Built a responsive and intuitive Financial Tracker web application using React and Firebase to help users manage and visualize their income and expenses. The application provides real-time tracking with interactive charts and data export functionality.",
     tags: ["React", "css", "Firebase"],
     imageUrl: corpcommentImg,
-    src:"https://finance-tracker-nine-ochre.vercel.app/",
+    src: "https://finance-tracker-nine-ochre.vercel.app/",
   },
-  
+  {
+    title: "Ecommerce Website",
+    description:
+      "Built a full-featured E-commerce app with user authentication(JWT), admin product management (create/edit), and Razorpay integration for online payments. Utilized MongoDB to store user, product, and order data.",
+    tags: [
+      "React",
+      "Tailwind",
+      "Express.js",
+      "mongoose",
+      "Node.js",
+      "Render",
+      "Netlify",
+    ],
+    imageUrl: wordanalyticsImg,
+    src: "https://jolly-alpaca-5fcf71.netlify.app",
+  },
 ] as const;
 
 export const skillsData = [
